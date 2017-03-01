@@ -31,3 +31,9 @@
 *.target
 *.class
 target/classes/application.properties
+jmsIntegrator/target/classes/spring/META-INF/jmsIntegration.xml
+jmsQueueSender/target/classes/application.properties
+jmsQueueSenderTest/target/test-classes/application.properties
+jmsQueueSenderTest/target/test-classes/features/ItemSender.feature
+jmsQueueSenderTest/target/test-classes/resources/application.properties
+jmsQueueSenderTest/target/test-classes/resources/features/ItemSender.feature

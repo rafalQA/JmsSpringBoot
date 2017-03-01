@@ -3,7 +3,6 @@ package com.integration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
@@ -13,8 +12,8 @@ import org.springframework.jms.support.converter.MessageType;
  */
 
 @SpringBootApplication
-@EnableJms
-public class AppRunner {
+public class JmsSenderRunner {
+
 
     @Bean
     public MessageConverter jacksonJmsMessageConverter() {
@@ -25,6 +24,6 @@ public class AppRunner {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(AppRunner.class, args);
+        SpringApplication.run(JmsSenderRunner.class, args);
     }
 }

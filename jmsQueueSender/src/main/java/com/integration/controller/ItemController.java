@@ -1,13 +1,10 @@
 package com.integration.controller;
 
-import com.integration.JmsClient.JmsClient;
+import com.integration.jmsClient.JmsClient;
 import com.integration.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Created by Rafal Piotrowicz on 25.02.2017.
@@ -27,11 +24,5 @@ public class ItemController {
     @ResponseStatus(value = HttpStatus.OK)
     public void sendItem(@RequestBody Item item) {
         jmsClient.sendItem(item);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/items")
-    @ResponseStatus(value = HttpStatus.OK)
-    public List<Item> getItems(){
-        return jmsClient.getItems();
     }
 }
