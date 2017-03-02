@@ -8,12 +8,20 @@
        http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
  ">
 
-    <jms:message-driven-channel-adapter connection-factory="connection" id="itemAdapter"
-                                        destination="queue" channel="itemChanel"/>
+    <jms:message-driven-channel-adapter connection-factory="connectionFactory" id="itemAdapter"
+                                        destination="inboundQueue" channel="itemInputChanel"/>
 
-    <int:channel id="itemChanel"/>
+    <int:channel id="itemInputChanel"/>
 
-    <int:service-activator id="itemGrossActivator" input-channel="itemChanel"
+    <int:service-activator id="itemGrossActivator" input-channel="itemInputChanel" output-channel="itemOutputChanel"
                            ref="itemGross" method="makeItemPriceGross" />
+
+    <int:channel id="itemOutputChanel"/>
+
+    <int:object-to-json-transformer  input-channel="itemOutputChanel" output-channel="jsonOutputChanel"/>
+
+    <int:channel id="jsonOutputChanel"/>
+
+    <jms:outbound-channel-adapter id="itemOutbound" channel="jsonOutputChanel" destination="outboundQueue"/>
 
 </beans>

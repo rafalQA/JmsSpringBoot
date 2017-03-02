@@ -37,3 +37,4 @@ jmsQueueSenderTest/target/test-classes/application.properties
 jmsQueueSenderTest/target/test-classes/features/ItemSender.feature
 jmsQueueSenderTest/target/test-classes/resources/application.properties
 jmsQueueSenderTest/target/test-classes/resources/features/ItemSender.feature
+jmsIntegrator/target/classes/application.properties

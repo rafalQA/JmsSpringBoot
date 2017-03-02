@@ -1,5 +1,6 @@
 package jmsQueueSender.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jmsQueueSender.consumer.ItemListener;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,8 @@ public class ActiveMqConfiguration {
     private String brokerPassword;
     @Value("${jms.queue.destination}")
     private String destination;
+    @Value("${jms.listener.Timeout}")
+    private Long listenerTimeout;
 
     private ConnectionFactory getActiveMqConnectionFactory() {
         ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(brokerUrl);
@@ -34,26 +37,19 @@ public class ActiveMqConfiguration {
 
         return new SingleConnectionFactory(factory);
     }
-/*
-    private JmsTemplate getJmsTemplate() {
-        JmsTemplate jmsTemplate = new JmsTemplate(getActiveMqConnectionFactory());
-        jmsTemplate.setDefaultDestinationName(destination);
 
-        return jmsTemplate;
+    @Bean
+    public ObjectMapper getObjectMapper(){
+        return new ObjectMapper();
     }
 
     @Bean
-    public JmsConsumer jmsConsumer() {
-        return new JmsConsumer(getJmsTemplate());
-    }*/
-
-    @Bean
-    public ItemListener getItemListener(){
-        return new ItemListener();
+    public ItemListener getItemListener() {
+        return new ItemListener(getObjectMapper(), listenerTimeout);
     }
 
     @Bean
-    public DefaultJmsListenerContainerFactory getDefaultContainerFactory(){
+    public DefaultJmsListenerContainerFactory getDefaultContainerFactory() {
         DefaultJmsListenerContainerFactory container = new DefaultJmsListenerContainerFactory();
         container.setConnectionFactory(getActiveMqConnectionFactory());
         container.setAutoStartup(true);

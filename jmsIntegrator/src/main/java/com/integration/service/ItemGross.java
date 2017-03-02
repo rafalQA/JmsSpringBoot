@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,33 +19,43 @@ public class ItemGross {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemGross.class);
 
-
-    private Item item;
     private BigDecimal taxRatio;
+    private ObjectMapper mapper;
 
-
-    public ItemGross(){
+    @Autowired
+    public ItemGross(ObjectMapper mapper){
         this.taxRatio = new BigDecimal("0.18");
+        this.mapper = mapper;
     }
 
-    public void makeItemPriceGross(String itemText){
+    public Item makeItemPriceGross(String itemText){
+        Item item = convertJsonTextToItem(itemText);
+        setItemPGrossPrice(item);
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        return item;
+    }
+
+    private void setItemPGrossPrice(Item item) {
+        BigDecimal grossPrice = calculateAndGetGroosPrice(item);
+        item.setPrice(grossPrice);
+    }
+
+    private BigDecimal calculateAndGetGroosPrice(Item item) {
+        BigDecimal taxValue = item.getPrice().multiply(taxRatio);
+
+        return item.getPrice().add(taxValue);
+    }
+
+    private Item convertJsonTextToItem(String itemText) {
+        Item tempItem = null;
 
         try {
-            this.item = objectMapper.readValue(itemText, Item.class);
+            tempItem = mapper.readValue(itemText, Item.class);
         } catch (IOException e) {
             logger.warn("Can't convert to Item message {}", itemText);
         }
 
-        BigDecimal taxValue = item.getPrice().multiply(taxRatio);
-
-        BigDecimal grossPrice = item.getPrice().add(taxValue);
-
-        item.setPrice(grossPrice);
-
-        System.out.println(item.getPrice()
-        );
+        return tempItem;
     }
 
 }

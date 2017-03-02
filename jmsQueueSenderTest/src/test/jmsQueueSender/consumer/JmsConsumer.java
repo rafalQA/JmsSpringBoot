@@ -13,6 +13,9 @@ import javax.jms.TextMessage;
  * Created by rpiotrowicz on 2017-02-27.
  */
 
+/**
+ * This class is only for present to another way consume messages from queue, is not use currently
+ */
 public class JmsConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(JmsConsumer.class);

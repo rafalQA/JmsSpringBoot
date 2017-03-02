@@ -26,9 +26,13 @@ public class QueueSenderStepsDefs extends CucumberSteps {
     @Qualifier("input")
     private Item inputItem;
     @Autowired
+    @Qualifier("expected")
+    private Item expectedItem;
+    @Autowired
     private ItemValidator itemValidator;
     @Autowired
-    private RequestSpecification spc;
+    private RequestSpecification spec;
+
 
     @Given("^I have item$")
     public void iHaveItem() throws Throwable {
@@ -37,18 +41,17 @@ public class QueueSenderStepsDefs extends CucumberSteps {
 
     @When("^I send it to jmsQueueSender$")
     public void iSendItToJmsQueueSender() throws Throwable {
-        int statusCode = given().spec(spc)
-                .body(inputItem)
-                .put("/items")
+        int statusCode = given().spec(spec)
+                .body(inputItem).put("/items")
                 .getStatusCode();
 
-        Assert.isTrue(statusCode == 200, "Not OK response from application");
+        Assert.isTrue(statusCode == 200, "Not OK status response from jmsQueueSender");
     }
 
     @Then("^item is on queue$")
     public void itemIsOnQueue() throws Throwable {
         Item message = consumer.getItem();
 
-        ReflectionAssert.assertReflectionEquals(inputItem, message);
+        ReflectionAssert.assertReflectionEquals(expectedItem, message);
     }
 }

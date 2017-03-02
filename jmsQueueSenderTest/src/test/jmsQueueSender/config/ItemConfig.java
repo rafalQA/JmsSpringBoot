@@ -17,15 +17,27 @@ public class ItemConfig {
 
     @Value("${item.name}")
     private String itemName;
-    @Value("${item.price}")
-    private BigDecimal itemPrice;
+    @Value("${item.inputPrice}")
+    private BigDecimal itemInputPrice;
+    @Value("${item.expectedPrice}")
+    private BigDecimal itemExpectedPrice;
 
     @Bean
     @Qualifier("input")
-    public Item getItem() {
+    public Item getInputItem() {
         Item item = new Item();
         item.setName(itemName);
-        item.setPrice(itemPrice);
+        item.setPrice(itemInputPrice);
+
+        return item;
+    }
+
+    @Bean
+    @Qualifier("expected")
+    public Item getExpectedItem() {
+        Item item = new Item();
+        item.setName(itemName);
+        item.setPrice(itemExpectedPrice);
 
         return item;
     }
