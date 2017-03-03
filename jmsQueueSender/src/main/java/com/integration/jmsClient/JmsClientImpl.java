@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
  * Created by Rafal Piotrowicz on 25.02.2017.
  */
 @Component
-public class JmsClientImpl implements JmsClient{
+public class JmsClientImpl implements JmsClient {
 
     private Producer producer;
 
     @Autowired
-    public JmsClientImpl(Producer producer){
+    public JmsClientImpl(Producer producer) {
         this.producer = producer;
     }
 
@@ -21,5 +21,4 @@ public class JmsClientImpl implements JmsClient{
     public void sendItem(Object object) {
         producer.send(object);
     }
-
 }

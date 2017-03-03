@@ -22,7 +22,7 @@ public class ItemController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/items")
     @ResponseStatus(value = HttpStatus.OK)
-    public void sendItem(@RequestBody Item item) {
+    public void sendItemToMessageBroker(@RequestBody Item item) {
         jmsClient.sendItem(item);
     }
 }

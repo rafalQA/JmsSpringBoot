@@ -26,5 +26,4 @@ public class RestClientConfig {
                 .addFilter(new ResponseLoggingFilter())
                 .build();
     }
-
 }

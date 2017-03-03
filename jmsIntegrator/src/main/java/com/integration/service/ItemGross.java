@@ -30,17 +30,17 @@ public class ItemGross {
 
     public Item makeItemPriceGross(String itemText){
         Item item = convertJsonTextToItem(itemText);
-        setItemPGrossPrice(item);
+        setItemGrossPrice(item);
 
         return item;
     }
 
-    private void setItemPGrossPrice(Item item) {
-        BigDecimal grossPrice = calculateAndGetGroosPrice(item);
+    private void setItemGrossPrice(Item item) {
+        BigDecimal grossPrice = calculateAndGetGrossPrice(item);
         item.setPrice(grossPrice);
     }
 
-    private BigDecimal calculateAndGetGroosPrice(Item item) {
+    private BigDecimal calculateAndGetGrossPrice(Item item) {
         BigDecimal taxValue = item.getPrice().multiply(taxRatio);
 
         return item.getPrice().add(taxValue);
@@ -57,5 +57,4 @@ public class ItemGross {
 
         return tempItem;
     }
-
 }
